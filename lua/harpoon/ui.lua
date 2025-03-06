@@ -170,6 +170,51 @@ function HarpoonUI:_get_processed_ui_contents()
 end
 
 ---@param options? any
+function HarpoonUI:remove_menu_item(options)
+    local idx = vim.fn.line(".")
+
+    local list, length = self:_get_processed_ui_contents()
+    self.active_list:resolve_displayed(list, length)
+
+    Logger:log(
+        "ui#remove_menu_item removing item",
+        idx,
+        "from",
+        list,
+        "options",
+        options
+    )
+
+    list = self.active_list
+    list:remove_at(idx)
+    local list, length = self:_get_processed_ui_contents()
+    self.active_list:resolve_displayed(list, length)
+end
+
+---@param options? any
+function HarpoonUI:replace_menu_item(options)
+    local idx = vim.fn.line(".")
+
+    local list, length = self:_get_processed_ui_contents()
+    self.active_list:resolve_displayed(list, length)
+
+    Logger:log(
+        "ui#replace_menu_item replacing item",
+        idx,
+        "from",
+        list,
+        "options",
+        options
+    )
+
+    list = self.active_list
+    list:replace_at(idx)
+    -- FIXME maybe the buffer name doesn't change if you use :f ?
+    local list, length = self:_get_processed_ui_contents()
+    self.active_list:resolve_displayed(list, length)
+end
+
+---@param options? any
 function HarpoonUI:select_menu_item(options)
     local idx = vim.fn.line(".")
 

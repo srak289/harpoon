@@ -14,6 +14,20 @@ local function get_harpoon_menu_name()
     return HARPOON_MENU .. harpoon_menu_id
 end
 
+function M.run_remove_command()
+    ---@type Harpoon
+    local harpoon = require("harpoon")
+    harpoon.logger:log("remove by keymap 'r'")
+    harpoon.ui:remove_menu_item()
+end
+
+function M.run_replace_command()
+    ---@type Harpoon
+    local harpoon = require("harpoon")
+    harpoon.logger:log("replace by keymap 'R'")
+    harpoon.ui:replace_menu_item()
+end
+
 function M.run_select_command()
     ---@type Harpoon
     local harpoon = require("harpoon")
@@ -55,6 +69,14 @@ function M.setup_autocmds_and_keymaps(bufnr)
 
     vim.keymap.set("n", "<Esc>", function()
         M.run_toggle_command("Esc")
+    end, { buffer = bufnr, silent = true })
+
+    vim.keymap.set("n", "r", function()
+        M.run_remove_command()
+    end, { buffer = bufnr, silent = true })
+
+    vim.keymap.set("n", "R", function()
+        M.run_replace_command()
     end, { buffer = bufnr, silent = true })
 
     vim.keymap.set("n", "<CR>", function()
