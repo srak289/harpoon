@@ -169,7 +169,6 @@ function HarpoonUI:_get_processed_ui_contents()
     return list, length
 end
 
----@param options? any
 function HarpoonUI:remove_menu_item()
     local idx = vim.fn.line(".")
 
@@ -183,15 +182,11 @@ function HarpoonUI:remove_menu_item()
         list
     )
 
-    -- We must set the content of the buffer
-    -- to the list that existed but now with our change
-    -- Buffer.set_contents(self.bufnr, [])
     list = self.active_list
-    --list:remove_at(idx)
-    vim.print(vim.inspect(list))
+    list:remove_at(idx)
+    Buffer.set_contents(self.bufnr, list:display())
 end
 
----@param options? any
 function HarpoonUI:replace_menu_item()
     local idx = vim.fn.line(".")
 
@@ -204,10 +199,10 @@ function HarpoonUI:replace_menu_item()
         "from",
         list
     )
-    list = self.active_list
-    --list:remove_at(idx)
-    vim.print(vim.inspect(list))
 
+    list = self.active_list
+    self:close_menu()
+    list:replace_at(idx)
 end
 
 ---@param options? any
