@@ -170,7 +170,7 @@ function HarpoonUI:_get_processed_ui_contents()
 end
 
 ---@param options? any
-function HarpoonUI:remove_menu_item(options)
+function HarpoonUI:remove_menu_item()
     local idx = vim.fn.line(".")
 
     local list, length = self:_get_processed_ui_contents()
@@ -180,19 +180,19 @@ function HarpoonUI:remove_menu_item(options)
         "ui#remove_menu_item removing item",
         idx,
         "from",
-        list,
-        "options",
-        options
+        list
     )
 
+    -- We must set the content of the buffer
+    -- to the list that existed but now with our change
+    -- Buffer.set_contents(self.bufnr, [])
     list = self.active_list
-    list:remove_at(idx)
-    local list, length = self:_get_processed_ui_contents()
-    self.active_list:resolve_displayed(list, length)
+    --list:remove_at(idx)
+    vim.print(vim.inspect(list))
 end
 
 ---@param options? any
-function HarpoonUI:replace_menu_item(options)
+function HarpoonUI:replace_menu_item()
     local idx = vim.fn.line(".")
 
     local list, length = self:_get_processed_ui_contents()
@@ -202,16 +202,12 @@ function HarpoonUI:replace_menu_item(options)
         "ui#replace_menu_item replacing item",
         idx,
         "from",
-        list,
-        "options",
-        options
+        list
     )
-
     list = self.active_list
-    list:replace_at(idx)
-    -- FIXME maybe the buffer name doesn't change if you use :f ?
-    local list, length = self:_get_processed_ui_contents()
-    self.active_list:resolve_displayed(list, length)
+    --list:remove_at(idx)
+    vim.print(vim.inspect(list))
+
 end
 
 ---@param options? any
